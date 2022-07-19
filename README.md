@@ -40,8 +40,6 @@ go run main.go
 ```  
 The application will be running on localhost:8080  
 
-To list all the Webtoons available go on http://localhost:8080/webtoons 
+To list all the Webtoons available go on localhost:8080/webtoons 
 
-To search an specific webtoon go on http://localhost:8080/search?title=%3Cwebtoon-title%3E  
-
-
+To search an specific webtoon go on localhost:8080/search?title=webtoon-title  
