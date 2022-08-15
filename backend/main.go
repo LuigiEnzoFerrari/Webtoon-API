@@ -12,13 +12,20 @@ import (
 )
 
 // Taking the credentials to log into database
-var dbuser string = os.Getenv("DB_USER");
-var dbname string = os.Getenv("DB_NAME");
-var dbpass string = os.Getenv("DB_PASS");
+var dbuser string = os.Getenv("DBUSER");
+var dbname string = os.Getenv("DBNAME");
+var dbpass string = os.Getenv("DBPASS");
+var dbhost string = os.Getenv("DBHOST");
+var connStr = "user=" + dbuser +
+" dbname=" + dbname +
+" password=" + dbpass +
+" host=" + dbhost +
+" sslmode=disable"
+
 var fields string = `webtoon_id, title, genre, summary,
-					episodes, 'Create by', view,
-					subscribe, grade, released_date,
-					url, likes, 'Written by'`
+episodes, 'Create by', view,
+subscribe, grade, released_date,
+url, likes, 'Written by'`
 
 // Webtoons data structure
 type Webtoon struct {
@@ -52,8 +59,7 @@ func displayWebtoons(w http.ResponseWriter, r *http.Request) {
 	query := "SELECT " + fields + " FROM dataset;"
 
 	webtoonInfo = &webtoons.Info
-	db, err := sql.Open("postgres",
-		"user=" + dbuser + " dbname=" + dbname + " sslmode=disable password=" + dbpass)
+	db, err := sql.Open("postgres", connStr)
 	if err != nil {
 		log.Fatal(err)
 	}
@@ -90,11 +96,11 @@ func handleTitle(w http.ResponseWriter, r *http.Request) {
 		webtoonInfo  *WebtoonInfo
 		webtoonsList []Webtoon
 	)
-
+	
 	query := "SELECT " + fields + " FROM dataset WHERE title='" + title + "';"
 	webtoonInfo = &webtoons.Info
 	db, err := sql.Open("postgres",
-		"user=" + dbuser + " dbname=" + dbname + " sslmode=disable password=" + dbpass)
+		connStr)
 	if err != nil {
 		log.Fatal(err)
 	}
