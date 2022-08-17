@@ -1,0 +1,25 @@
+version: "3.9"
+
+services:
+  backend:
+    build: ./backend/
+    container_name: backend
+    ports:
+      - "8080:8080"
+    networks:
+      - compose-bridge
+    env_file:
+      - ./config.env
+
+  database:
+    build: ./dataset/
+    container_name: database
+    environment:
+      - "POSTGRES_DB=${DBNAME}"
+      - "POSTGRES_PASSWORD=${DBPASS}"
+    networks:
+      - compose-bridge
+
+networks:
+  compose-bridge:
+    driver: bridge
